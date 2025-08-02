@@ -1,0 +1,37 @@
+
+%% DIO code van Canvas:
+%%discover devices
+apparaat = daq.getDevices;
+%%create & start data acquisition session
+session = daq.createSession(apparaat.Vendor.ID);
+%%add channels to daq session
+addDigitalChannel(session, apparaat.ID, 'port0/line0', 'OutputOnly');
+addDigitalChannel(session, apparaat.ID, 'port0/line1', 'OutputOnly');
+addDigitalChannel(session, apparaat.ID, 'port0/line2', 'OutputOnly');
+addDigitalChannel(session, apparaat.ID, 'port0/line3', 'OutputOnly');
+addDigitalChannel(session, apparaat.ID, 'port0/line4', 'OutputOnly');
+addDigitalChannel(session, apparaat.ID, 'port0/line5', 'OutputOnly');
+
+%% Following code is for 32 bit Matlab with DAQ toolbox
+% %daq=daqhwinfo('parallel');             %information about parallel port
+% dio=digitalio('parallel','lpt1');   %port definition
+% addline(dio,0:7,0,'out');      % adding lines to port
+% putvalue(dio.line(1:8),[0 0 0 0 0 0 0 0]);  %send 0
+%%
+
+%% DIOs aan
+        %This code uses the circle number (1 is left, 2 is right, 3 is down, 4 is up and relates this circle number to 
+        %a dio. 
+       if randcircles(circles) == 1
+           outputSingleScan(session, [1 0 0 0 0 0])
+       elseif randcircles(circles) == 2
+            outputSingleScan(session, [0 1 0 0 0 0])   
+       elseif randcircles(circles) == 3
+           outputSingleScan(session, [0 0 1 0 0 0])
+       elseif randcircles(circles) == 4
+           outputSingleScan(session, [0 0 0 1 0 0])
+       end
+        
+  
+        %% DIOs uit
+       outputSingleScan(session, [0 0 0 0 0 0]) %alles uit
